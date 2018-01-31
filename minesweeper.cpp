@@ -4,8 +4,7 @@
 #include <time.h>
 
 /* TODO: 
- * add logic for winning/ ending the game
- * add calculation for determining how many mines are nearby
+ * add flag for when game is won
 */
 
 void minesweeper::init_grid(){
@@ -43,11 +42,14 @@ void minesweeper::mark(unsigned x, unsigned y){
 	if(x < ROW && y < COL){
 		if(grid[x][y] == '?'){
 			if(isMine(x,y)){
-				std::cout << "You hit a mine!\n";
-				mineHit = true;
+				std::cout << "- You hit a mine! -\n";
+				grid[x][y] = 'X';
+				mineHit = true; //triggers game over
 			}
-			else grid[x][y] = '0'; //TODO: show number of nearby mines
+			else grid[x][y] = howNear(x,y);
 		}
+		else std::cout << "Try again.\n";
+		//TODO: add check for full grid, minus the mine tiles
 	}
 }
 
@@ -56,6 +58,53 @@ bool minesweeper::isMine(unsigned x, unsigned y){
 }
 
 char minesweeper::howNear(unsigned x, unsigned y){
-	
-	return ' ';
+	//calculates how many mines are adjacent and diagonal to this tile
+	unsigned short count = 0;
+	if(x > 0){
+		if(isMine(x-1,y)) count++;
+		if(y > 0){
+			if(isMine(x-1,y-1)) count++;
+		}
+		if(y < COL-1){
+			if(isMine(x-1,y+1)) count++;
+		}
+	}
+	if(y > 0){
+		if(isMine(x,y-1)) count++;
+		if(x < ROW-1) {
+			if(isMine(x+1,y-1)) count++;
+		}
+	}
+	if(x < ROW-1){
+		if(isMine(x+1,y)) count++;
+		if(y < COL-1){
+			if(isMine(x+1,y+1)) count++;
+		}
+	}
+	if(y < COL-1){
+		if(isMine(x,y+1)) count++;
+	}
+	//return the character representation
+	switch(count){
+		case 0:
+			return '0';
+		case 1:
+			return '1';
+		case 2:
+			return '2';
+		case 3:
+			return '3';
+		case 4:
+			return '4';
+		case 5:
+			return '5';
+		case 6:
+			return '6';
+		case 7:
+			return '7';
+		case 8:
+			return '8';
+		default:
+			return '#';
+	}
 }
