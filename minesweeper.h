@@ -13,4 +13,6 @@ class minesweeper{
 		void mark(unsigned x, unsigned y);
 		bool isMine(unsigned x, unsigned y);
 		char howNear(unsigned x, unsigned y);
+		bool getMineHit() { return mineHit; }
+		bool gameWon();
 };

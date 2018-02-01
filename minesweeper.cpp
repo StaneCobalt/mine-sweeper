@@ -3,10 +3,6 @@
 #include <cstdlib>
 #include <time.h>
 
-/* TODO: 
- * add flag for when game is won
-*/
-
 void minesweeper::init_grid(){
 	srand(time(NULL));
 	//initialize player grid
@@ -107,4 +103,17 @@ char minesweeper::howNear(unsigned x, unsigned y){
 		default:
 			return '#';
 	}
+}
+
+bool minesweeper::gameWon(){
+	unsigned count = 0;
+	for(auto &row : grid){
+		for(auto &tile : row){
+			if(tile == '?') count++;
+			if(count >= ROW){
+				return false;
+			}
+		}
+	}
+	return true;
 }
