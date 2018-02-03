@@ -56,22 +56,22 @@ void minesweeper::mark(unsigned x, unsigned y){
 
 void minesweeper::clear_empty(unsigned x, unsigned y){
 	//if marked tile is a 0, automatically marks all adjacent tiles
-	if(x > 0){
+	if(x > 0)
 		grid[x-1][y] = howNear(x-1,y);
-		if(y > 0) {
-			grid[x][y-1] = howNear(x,y-1);
-			grid[x-1][y-1] = howNear(x-1,y-1);
-		}
-		if(y < COL-1) grid[x-1][y+1] = howNear(x-1,y+1);
-	}
-	if(x < ROW-1){
-		grid[x+1][y] = howNear(x+1,y);
-		if(y < COL-1){
-			grid[x][y+1] = howNear(x,y+1);
-			grid[x+1][y+1] = howNear(x+1,y+1);
-		}
-		if(y > 0) grid[x+1][y-1] = howNear(x+1,y-1);
-	}
+	if(y > 0)
+		grid[x][y-1] = howNear(x,y-1);
+	if(x > 0 && y > 0)
+		grid[x-1][y-1] = howNear(x-1,y-1);
+	if(x < ROW-1)
+		grid[x+1][y] = howNear(x+1,y);	
+	if(y < COL-1)
+		grid[x][y+1] = howNear(x,y+1);
+	if(x < ROW-1 && y < COL-1)
+		grid[x+1][y+1] = howNear(x+1,y+1);
+	if(x > 0 && y < COL-1)
+		grid[x-1][y+1] = howNear(x-1,y+1);
+	if(x < ROW-1 && y > 0)
+		grid[x+1][y-1] = howNear(x+1,y-1);
 }
 
 bool minesweeper::isMine(unsigned x, unsigned y){
@@ -81,30 +81,22 @@ bool minesweeper::isMine(unsigned x, unsigned y){
 char minesweeper::howNear(unsigned x, unsigned y){
 	//calculates how many mines are adjacent and diagonal to this tile
 	unsigned short count = 0;
-	if(x > 0){
+	if(x > 0)
 		if(isMine(x-1,y)) count++;
-		if(y > 0){
-			if(isMine(x-1,y-1)) count++;
-		}
-		if(y < COL-1){
-			if(isMine(x-1,y+1)) count++;
-		}
-	}
-	if(y > 0){
+	if(x > 0 && y > 0)
+		if(isMine(x-1,y-1)) count++;
+	if(x > 0 && y < COL-1)
+		if(isMine(x-1,y+1)) count++;
+	if(y > 0)
 		if(isMine(x,y-1)) count++;
-		if(x < ROW-1) {
-			if(isMine(x+1,y-1)) count++;
-		}
-	}
-	if(x < ROW-1){
-		if(isMine(x+1,y)) count++;
-		if(y < COL-1){
-			if(isMine(x+1,y+1)) count++;
-		}
-	}
-	if(y < COL-1){
+	if(y < COL-1)
 		if(isMine(x,y+1)) count++;
-	}
+	if(x < ROW-1 && y > 0)
+		if(isMine(x+1,y-1)) count++;
+	if(x < ROW-1)
+		if(isMine(x+1,y)) count++;
+	if(x < ROW-1 && y < COL-1)
+		if(isMine(x+1,y+1)) count++;
 	//return the character representation
 	switch(count){
 		case 0:
@@ -135,7 +127,7 @@ bool minesweeper::gameWon(){
 	for(auto &row : grid){
 		for(auto &tile : row){
 			if(tile == '?') count++;
-			if(count >= ROW){
+			if(count > ROW){
 				return false;
 			}
 		}
