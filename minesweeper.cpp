@@ -42,10 +42,35 @@ void minesweeper::mark(unsigned x, unsigned y){
 				grid[x][y] = 'X';
 				mineHit = true; //triggers game over
 			}
-			else grid[x][y] = howNear(x,y);
+			else {
+				grid[x][y] = howNear(x,y);
+				if(grid[x][y] == '0'){
+					clear_empty(x,y);
+				}
+			}
 		}
 		else std::cout << "Try again.\n";
 		//TODO: add check for full grid, minus the mine tiles
+	}
+}
+
+void minesweeper::clear_empty(unsigned x, unsigned y){
+	//if marked tile is a 0, automatically marks all adjacent tiles
+	if(x > 0){
+		grid[x-1][y] = howNear(x-1,y);
+		if(y > 0) {
+			grid[x][y-1] = howNear(x,y-1);
+			grid[x-1][y-1] = howNear(x-1,y-1);
+		}
+		if(y < COL-1) grid[x-1][y+1] = howNear(x-1,y+1);
+	}
+	if(x < ROW-1){
+		grid[x+1][y] = howNear(x+1,y);
+		if(y < COL-1){
+			grid[x][y+1] = howNear(x,y+1);
+			grid[x+1][y+1] = howNear(x+1,y+1);
+		}
+		if(y > 0) grid[x+1][y-1] = howNear(x+1,y-1);
 	}
 }
 

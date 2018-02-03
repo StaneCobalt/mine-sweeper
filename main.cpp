@@ -31,9 +31,9 @@ int main(int argc, char** argv){
 					std::cout << "Congratulations! You beat Minesweeper!\n";
 				}
 			}
-			else std::cout << "Please use integers in the range of 0 to " << ROW << '\n';
+			else std::cout << "Please use integers in the range of 0 to " << ROW-1 << '\n';
 		}
-		else std::cout << "Please use 2 integers in the range of 0 to " << ROW << " separated by a comma\n";
+		else std::cout << "Please use 2 integers in the range of 0 to " << ROW-1 << " separated by a comma\n";
 		std::cout << '\n';
 	}
 	return 0;

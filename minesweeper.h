@@ -11,6 +11,7 @@ class minesweeper{
 		void init_grid();
 		void print_grid();
 		void mark(unsigned x, unsigned y);
+		void clear_empty(unsigned x, unsigned y);
 		bool isMine(unsigned x, unsigned y);
 		char howNear(unsigned x, unsigned y);
 		bool getMineHit() { return mineHit; }
