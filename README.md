@@ -12,6 +12,8 @@ The numbers represent how many adjacent mines there are. The goal of the game is
 I like to use MinGW to build my projects. If you want to build the game just use the following command:
 `g++ main.cpp minesweeper.h minesweeper.cpp split.h -o minesweeper.exe`
 
-<img src="https://github.com/StaneCobalt/mine-sweeper/screenshot2.PNG" width="450" height="300">
+### Winning Game
+<img src="https://github.com/StaneCobalt/mine-sweeper/blob/master/screenshot2.PNG" width="450" height="300">
 
-<img src="https://github.com/StaneCobalt/mine-sweeper/screenshot.PNG" width="450" height="300">
+### Game Over
+<img src="https://github.com/StaneCobalt/mine-sweeper/blob/master/screenshot.PNG" width="450" height="300">
