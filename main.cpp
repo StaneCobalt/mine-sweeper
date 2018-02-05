@@ -12,7 +12,7 @@ int main(int argc, char** argv){
 	minesweeper ms;
 	ms.init_grid();
 	ms.print_grid();
-	while(!gameOver && input != "q" && input != "Q"){
+	while((!gameOver)&&(input != "q")&&(input != "Q")){
 		std::cout << "Enter an xy coordinate (example: 1,2) or press q to quit: ";
 		std::cin >> input;
 		if(input.length() > 2){

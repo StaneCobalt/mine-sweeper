@@ -6,6 +6,7 @@ class minesweeper{
 		char grid[ROW][COL];
 		char mines[ROW][COL];
 		bool mineHit;
+		bool recursionCalled[8];
 	public:
 		minesweeper() { mineHit = false; }
 		void init_grid();
@@ -16,4 +17,12 @@ class minesweeper{
 		char howNear(unsigned x, unsigned y);
 		bool getMineHit() { return mineHit; }
 		bool gameWon();
+		bool getRecursionCalled(int n){
+			return (n > 0 && n < 8) ? recursionCalled[n] : false;
+		}
+		void resetCalls(){
+			for(unsigned short i = 0; i < 8; i++){
+				recursionCalled[i] = false;
+			}
+		}
 };

@@ -23,6 +23,7 @@ void minesweeper::init_grid(){
 		int y = rand() % COL;
 		mines[x][y] = 'o';
 	}
+	resetCalls();
 }
 
 void minesweeper::print_grid(){
@@ -45,33 +46,74 @@ void minesweeper::mark(unsigned x, unsigned y){
 			else {
 				grid[x][y] = howNear(x,y);
 				if(grid[x][y] == '0'){
+					resetCalls();
 					clear_empty(x,y);
 				}
 			}
 		}
 		else std::cout << "Try again.\n";
-		//TODO: add check for full grid, minus the mine tiles
 	}
 }
 
 void minesweeper::clear_empty(unsigned x, unsigned y){
 	//if marked tile is a 0, automatically marks all adjacent tiles
-	if(x > 0)
+	if(x > 0){
 		grid[x-1][y] = howNear(x-1,y);
-	if(y > 0)
+		if(grid[x-1][y] == '0' && !recursionCalled[0]){
+			recursionCalled[0] = true;
+			return clear_empty(x-1,y);
+		}
+	}
+	if(y > 0){
 		grid[x][y-1] = howNear(x,y-1);
-	if(x > 0 && y > 0)
+		if(grid[x][y-1] == '0' && !recursionCalled[1]){
+			recursionCalled[1] = true;
+			return clear_empty(x,y-1);
+		}
+	}
+	if(x > 0 && y > 0){
 		grid[x-1][y-1] = howNear(x-1,y-1);
-	if(x < ROW-1)
-		grid[x+1][y] = howNear(x+1,y);	
-	if(y < COL-1)
+		if(grid[x-1][y-1] == '0' && !recursionCalled[2]){
+			recursionCalled[2] = true;
+			return clear_empty(x-1,y-1);
+		}
+	}
+	if(x < ROW-1){
+		grid[x+1][y] = howNear(x+1,y);
+		if(grid[x+1][y] == '0' && !recursionCalled[3]){
+			recursionCalled[3] = true;
+			return clear_empty(x+1,y);
+		}
+	}
+	if(y < COL-1){
 		grid[x][y+1] = howNear(x,y+1);
-	if(x < ROW-1 && y < COL-1)
+		if(grid[x][y+1] == '0' && !recursionCalled[4]){
+			recursionCalled[4] = true;
+			return clear_empty(x,y+1);
+		}
+	}
+	if(x < ROW-1 && y < COL-1){
 		grid[x+1][y+1] = howNear(x+1,y+1);
-	if(x > 0 && y < COL-1)
+		if(grid[x+1][y+1] == '0' && !recursionCalled[5]){
+			recursionCalled[5] = true;
+			return clear_empty(x+1,y+1);
+		}
+	}
+	if(x > 0 && y < COL-1){
 		grid[x-1][y+1] = howNear(x-1,y+1);
-	if(x < ROW-1 && y > 0)
+		if(grid[x-1][y+1] == '0' && !recursionCalled[6]){
+			recursionCalled[6] = true;
+			return clear_empty(x-1,y+1);
+		}
+	}
+	if(x < ROW-1 && y > 0){
 		grid[x+1][y-1] = howNear(x+1,y-1);
+		if(grid[x+1][y-1] == '0' && !recursionCalled[7]){
+			recursionCalled[7] = true;
+			return clear_empty(x+1,y-1);
+		}
+	}
+	return;
 }
 
 bool minesweeper::isMine(unsigned x, unsigned y){
