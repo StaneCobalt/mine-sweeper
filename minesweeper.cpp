@@ -8,22 +8,22 @@ void minesweeper::init_grid(){
 	//initialize player grid
 	for(unsigned short i = 0; i < ROW; i++){
 		for(unsigned short j = 0; j < COL; j++){
-			grid[i][j] = '?';
+			grid[i][j] = '#';
 		}
 	}
 	//initialize mine grid
 	for(unsigned short i = 0; i < ROW; i++){
 		for(unsigned short j = 0; j < COL; j++){
-			mines[i][j] = 'x';
+			mines[i][j] = 'o';
 		}
 	}
 	//plant mines
 	for(int i = 0; i < ROW; i++){
 		int x = rand() % ROW;
 		int y = rand() % COL;
-		mines[x][y] = 'o';
+		mines[x][y] = 'x';
 	}
-	resetCalls();
+	resetCalls(); //sets recursion call checks to false
 }
 
 void minesweeper::print_grid(){
@@ -37,7 +37,7 @@ void minesweeper::print_grid(){
 
 void minesweeper::mark(unsigned x, unsigned y){
 	if(x < ROW && y < COL){
-		if(grid[x][y] == '?'){
+		if(grid[x][y] == '#'){
 			if(isMine(x,y)){
 				std::cout << "- You hit a mine! -\n";
 				grid[x][y] = 'X';
@@ -46,8 +46,8 @@ void minesweeper::mark(unsigned x, unsigned y){
 			else {
 				grid[x][y] = howNear(x,y);
 				if(grid[x][y] == '0'){
-					resetCalls();
-					clear_empty(x,y);
+					resetCalls(); //resets recursion calls
+					clear_empty(x,y); //clears nearby tiles, since none are mines
 				}
 			}
 		}
@@ -56,7 +56,11 @@ void minesweeper::mark(unsigned x, unsigned y){
 }
 
 void minesweeper::clear_empty(unsigned x, unsigned y){
-	//if marked tile is a 0, automatically marks all adjacent tiles
+	/* If the marked tile is a 0, automatically marks all adjacent tiles
+	* Using recursionCalled to limit excess memory being used.
+	* Each tile will only have 1 call. 
+	* The calls are reset to false when clear_empty is initially called
+	*/
 	if(x > 0){
 		grid[x-1][y] = howNear(x-1,y);
 		if(grid[x-1][y] == '0' && !recursionCalled[0]){
@@ -117,7 +121,7 @@ void minesweeper::clear_empty(unsigned x, unsigned y){
 }
 
 bool minesweeper::isMine(unsigned x, unsigned y){
-	return (mines[x][y] == 'o');
+	return (mines[x][y] == 'x'); //mines are represented by x and safe spots by o
 }
 
 char minesweeper::howNear(unsigned x, unsigned y){
@@ -160,7 +164,7 @@ char minesweeper::howNear(unsigned x, unsigned y){
 		case 8:
 			return '8';
 		default:
-			return '#';
+			return '?';
 	}
 }
 
@@ -168,7 +172,7 @@ bool minesweeper::gameWon(){
 	unsigned count = 0;
 	for(auto &row : grid){
 		for(auto &tile : row){
-			if(tile == '?') count++;
+			if(tile == '#') count++;
 			if(count > ROW){
 				return false;
 			}

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include <vector>
 #include "minesweeper.h"
 #include "split.h"
@@ -16,24 +17,29 @@ int main(int argc, char** argv){
 		std::cout << "Enter an xy coordinate (example: 1,2) or press q to quit: ";
 		std::cin >> input;
 		if(input.length() > 2){
-			v = split(input);
-			xPos = std::stoi(v[0]);
-			yPos = std::stoi(v[1]);
-			if((xPos >= 0 && xPos < ROW)&&(yPos >= 0 && yPos < COL)){
-				ms.mark(xPos,yPos);
-				ms.print_grid();
-				if(ms.getMineHit()){
-					gameOver = true;
-					std::cout << "Game Over\n";
+			try{
+				v = split(input);
+				xPos = std::stoi(v[0]);
+				yPos = std::stoi(v[1]);
+				if((xPos >= 0 && xPos < ROW)&&(yPos >= 0 && yPos < COL)){
+					ms.mark(xPos,yPos);
+					ms.print_grid();
+					if(ms.getMineHit()){
+						gameOver = true;
+						std::cout << "Game Over\n";
+					}
+					else if(ms.gameWon()){
+						gameOver = true;
+						std::cout << "Congratulations! You beat Minesweeper!\n";
+					}
 				}
-				else if(ms.gameWon()){
-					gameOver = true;
-					std::cout << "Congratulations! You beat Minesweeper!\n";
-				}
+				else std::cout << "Please use integers in the range of 0 to " << ROW-1 << '\n';
 			}
-			else std::cout << "Please use integers in the range of 0 to " << ROW-1 << '\n';
+			catch(int e){
+				std::cerr << "An Exception Occurred. " << e << std::endl;;
+			}
 		}
-		else std::cout << "Please use 2 integers in the range of 0 to " << ROW-1 << " separated by a comma\n";
+		else if(input !="q" && input !="Q") std::cout << "Please use 2 integers in the range of 0 to " << ROW-1 << " separated by a comma\n";
 		std::cout << '\n';
 	}
 	return 0;
