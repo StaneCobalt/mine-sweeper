@@ -6,6 +6,9 @@
 #include "split.h"
 
 int main(int argc, char** argv){
+	std::cout << "\n -------------------------\n" 
+			<< "| Welcome to Minesweeper! |\n" 
+			<< " -------------------------\n\n";
 	std::string input;
 	std::vector<std::string> v;
 	int xPos, yPos;
