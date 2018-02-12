@@ -5,10 +5,15 @@
 #include "minesweeper.h"
 #include "split.h"
 
-int main(int argc, char** argv){
+void printTitle(){
 	std::cout << "\n -------------------------\n" 
 			<< "| Welcome to Minesweeper! |\n" 
-			<< " -------------------------\n\n";
+			<< " -------------------------\n"
+			<< std::endl;
+}
+
+int main(int argc, char** argv){
+	printTitle();
 	std::string input;
 	std::vector<std::string> v;
 	int xPos, yPos;
@@ -26,6 +31,8 @@ int main(int argc, char** argv){
 				yPos = std::stoi(v[1]);
 				if((xPos >= 0 && xPos < ROW)&&(yPos >= 0 && yPos < COL)){
 					ms.mark(xPos,yPos);
+					system("CLS");
+					printTitle();
 					ms.print_grid();
 					if(ms.getMineHit()){
 						gameOver = true;
