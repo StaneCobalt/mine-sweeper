@@ -27,12 +27,19 @@ void minesweeper::init_grid(){
 }
 
 void minesweeper::print_grid(){
+	std::cout << "    ";
+	for(unsigned i = 0; i < ROW; i++) std::cout << ' ' << i;
+	std::cout << "\n    ";
+	for(unsigned i = 0; i < ROW; i++) std::cout << "--";
+	std::cout << '\n';
 	for(unsigned short i = 0; i < ROW; i++){
+		std::cout << ' ' << i << " | ";
 		for(unsigned short j = 0; j < COL; j++){
 			std::cout << grid[i][j] << ' ';
 		}
 		std::cout << '\n';
 	}
+	std::cout << '\n';
 }
 
 void minesweeper::mark(unsigned x, unsigned y){
