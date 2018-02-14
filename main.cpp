@@ -5,6 +5,28 @@
 #include "minesweeper.h"
 #include "split.h"
 
+#ifdef _WIN32
+	void clearScreen(){
+		system("CLS");
+	}
+
+#elif _APPLE_
+	void clearScreen(){
+		system("clear");
+	}
+
+#elif _linux_
+	void clearScreen(){
+		system("clear & clear");
+	}
+
+#else
+	void clearScreen(){
+		std::cout << "\n";
+	}
+	
+#endif
+
 void printTitle(){
 	std::cout << "\n -------------------------\n" 
 			<< "| Welcome to Minesweeper! |\n" 
@@ -13,6 +35,7 @@ void printTitle(){
 }
 
 int main(int argc, char** argv){
+	clearScreen();
 	printTitle();
 	std::string input;
 	std::vector<std::string> v;
@@ -22,7 +45,7 @@ int main(int argc, char** argv){
 	ms.init_grid();
 	ms.print_grid();
 	while((!gameOver)&&(input != "q")&&(input != "Q")){
-		std::cout << "Enter an xy coordinate (example: 1,2) or press q to quit: ";
+		std::cout << "Enter a Row, Column coordinate (example: 1,2) or press q to quit: ";
 		std::cin >> input;
 		if(input.length() > 2){
 			try{
@@ -31,7 +54,7 @@ int main(int argc, char** argv){
 				yPos = std::stoi(v[1]);
 				if((xPos >= 0 && xPos < ROW)&&(yPos >= 0 && yPos < COL)){
 					ms.mark(xPos,yPos);
-					system("CLS");
+					clearScreen();
 					printTitle();
 					ms.print_grid();
 					if(ms.getMineHit()){
@@ -53,4 +76,4 @@ int main(int argc, char** argv){
 		std::cout << '\n';
 	}
 	return 0;
-} 
+}
