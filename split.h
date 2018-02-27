@@ -12,7 +12,7 @@ const std::string delimiters = " \n\t~!@#%^&*()_+={}|\\{};:,.<>,?\"";
 vector<string> split(const string & s, const string& delim = delimiters){
 	vector<string> v;
 	string::size_type pos1, pos2=0;
-	string::size_type n;
+	//string::size_type n;
 	string word;
 	pos1=s.find_first_not_of(delim,pos2); //find first item not a delimiter starting at position 0
 	while(pos1!=string::npos){ //npos = string size or end of string
