@@ -1,21 +1,18 @@
 #include <iostream>
-#include "minesweeper.h"
+#include <array>
+#include "../include/minesweeper.h"
 #include <cstdlib>
 #include <time.h>
 
 void minesweeper::init_grid(){
 	srand(time(NULL));
 	//initialize player grid
-	for(unsigned short i = 0; i < ROW; i++){
-		for(unsigned short j = 0; j < COL; j++){
-			grid[i][j] = '#';
-		}
+	for(auto &row : grid){
+		row.fill('#');
 	}
 	//initialize mine grid
-	for(unsigned short i = 0; i < ROW; i++){
-		for(unsigned short j = 0; j < COL; j++){
-			mines[i][j] = 'o';
-		}
+	for(auto &row : mines){
+		row.fill('o');
 	}
 	//plant mines
 	for(int i = 0; i < ROW; i++){
@@ -27,12 +24,13 @@ void minesweeper::init_grid(){
 }
 
 void minesweeper::print_grid(){
+	unsigned short i;
 	std::cout << "    ";
-	for(unsigned i = 0; i < ROW; i++) std::cout << ' ' << i;
+	for(i = 0; i < ROW; i++) std::cout << ' ' << i;
 	std::cout << "\n    ";
-	for(unsigned i = 0; i < ROW; i++) std::cout << "--";
+	for(i = 0; i < ROW; i++) std::cout << "--";
 	std::cout << '\n';
-	for(unsigned short i = 0; i < ROW; i++){
+	for(i = 0; i < ROW; i++){
 		std::cout << ' ' << i << " | ";
 		for(unsigned short j = 0; j < COL; j++){
 			std::cout << grid[i][j] << ' ';
@@ -46,7 +44,6 @@ void minesweeper::mark(unsigned x, unsigned y){
 	if(x < ROW && y < COL){
 		if(grid[x][y] == '#'){
 			if(isMine(x,y)){
-				std::cout << "- You hit a mine! -\n";
 				grid[x][y] = 'X';
 				mineHit = true; //triggers game over
 			}
@@ -89,35 +86,35 @@ void minesweeper::clear_empty(unsigned x, unsigned y){
 			return clear_empty(x-1,y-1);
 		}
 	}
-	if(x < ROW-1){
+	if(x < domain){
 		grid[x+1][y] = howNear(x+1,y);
 		if(grid[x+1][y] == '0' && !recursionCalled[3]){
 			recursionCalled[3] = true;
 			return clear_empty(x+1,y);
 		}
 	}
-	if(y < COL-1){
+	if(y < range){
 		grid[x][y+1] = howNear(x,y+1);
 		if(grid[x][y+1] == '0' && !recursionCalled[4]){
 			recursionCalled[4] = true;
 			return clear_empty(x,y+1);
 		}
 	}
-	if(x < ROW-1 && y < COL-1){
+	if(x < domain && y < range){
 		grid[x+1][y+1] = howNear(x+1,y+1);
 		if(grid[x+1][y+1] == '0' && !recursionCalled[5]){
 			recursionCalled[5] = true;
 			return clear_empty(x+1,y+1);
 		}
 	}
-	if(x > 0 && y < COL-1){
+	if(x > 0 && y < range){
 		grid[x-1][y+1] = howNear(x-1,y+1);
 		if(grid[x-1][y+1] == '0' && !recursionCalled[6]){
 			recursionCalled[6] = true;
 			return clear_empty(x-1,y+1);
 		}
 	}
-	if(x < ROW-1 && y > 0){
+	if(x < domain && y > 0){
 		grid[x+1][y-1] = howNear(x+1,y-1);
 		if(grid[x+1][y-1] == '0' && !recursionCalled[7]){
 			recursionCalled[7] = true;
@@ -138,41 +135,20 @@ char minesweeper::howNear(unsigned x, unsigned y){
 		if(isMine(x-1,y)) count++;
 	if(x > 0 && y > 0)
 		if(isMine(x-1,y-1)) count++;
-	if(x > 0 && y < COL-1)
+	if(x > 0 && y < range)
 		if(isMine(x-1,y+1)) count++;
 	if(y > 0)
 		if(isMine(x,y-1)) count++;
-	if(y < COL-1)
+	if(y < range)
 		if(isMine(x,y+1)) count++;
-	if(x < ROW-1 && y > 0)
+	if(x < domain && y > 0)
 		if(isMine(x+1,y-1)) count++;
-	if(x < ROW-1)
+	if(x < domain)
 		if(isMine(x+1,y)) count++;
-	if(x < ROW-1 && y < COL-1)
+	if(x < domain && y < range)
 		if(isMine(x+1,y+1)) count++;
 	//return the character representation
-	switch(count){
-		case 0:
-			return '0';
-		case 1:
-			return '1';
-		case 2:
-			return '2';
-		case 3:
-			return '3';
-		case 4:
-			return '4';
-		case 5:
-			return '5';
-		case 6:
-			return '6';
-		case 7:
-			return '7';
-		case 8:
-			return '8';
-		default:
-			return '?';
-	}
+	return '0'+count;
 }
 
 bool minesweeper::gameWon(){

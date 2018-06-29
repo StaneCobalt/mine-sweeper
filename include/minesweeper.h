@@ -1,10 +1,14 @@
+#include <array>
+
 const unsigned ROW = 8;
 const unsigned COL = 8;
+const unsigned domain = ROW-1;
+const unsigned range = COL-1;
 
 class minesweeper{
 	private:
-		char grid[ROW][COL];
-		char mines[ROW][COL];
+		std::array<std::array<char,ROW>,COL> grid;
+		std::array<std::array<char,ROW>,COL> mines;
 		bool mineHit;
 		bool recursionCalled[8];
 	public:
@@ -18,7 +22,7 @@ class minesweeper{
 		bool getMineHit() { return mineHit; }
 		bool gameWon();
 		bool getRecursionCalled(int n){
-			return (n > 0 && n < 8) ? recursionCalled[n] : false;
+			return (n > 0 && n < ROW) ? recursionCalled[n] : false;
 		}
 		void resetCalls(){
 			for(unsigned short i = 0; i < 8; i++){

@@ -2,8 +2,8 @@
 #include <string>
 #include <cstdlib>
 #include <vector>
-#include "minesweeper.h"
-#include "split.h"
+#include "../include/minesweeper.h"
+#include "../include/split.h"
 
 #ifdef _WIN32
 	void clearScreen(){
@@ -27,23 +27,20 @@
 	
 #endif
 
-void printTitle(){
-	std::cout << "\n -------------------------\n" 
-			<< "| Welcome to Minesweeper! |\n" 
-			<< " -------------------------\n"
-			<< std::endl;
-}
-
 int main(int argc, char** argv){
-	clearScreen();
-	printTitle();
+	
+	const std::string title = "\n -------------------------\n| Welcome to Minesweeper! |\n -------------------------\n\n";
 	std::string input;
 	std::vector<std::string> v;
 	int xPos, yPos;
 	bool gameOver = false;
 	minesweeper ms;
+	
+	clearScreen();
+	std::cout << title;
 	ms.init_grid();
 	ms.print_grid();
+	
 	while((!gameOver)&&(input != "q")&&(input != "Q")){
 		std::cout << "Enter a Row, Column coordinate (example: 1,2) or press q to quit: ";
 		std::cin >> input;
@@ -55,25 +52,26 @@ int main(int argc, char** argv){
 				if((xPos >= 0 && xPos < ROW)&&(yPos >= 0 && yPos < COL)){
 					ms.mark(xPos,yPos);
 					clearScreen();
-					printTitle();
+					std::cout << title;
 					ms.print_grid();
 					if(ms.getMineHit()){
 						gameOver = true;
-						std::cout << "Game Over\n";
-					}
-					else if(ms.gameWon()){
+						std::cout << "You hit a mine!\n- Game Over -" << std::endl;
+					} else if(ms.gameWon()){
 						gameOver = true;
-						std::cout << "Congratulations! You beat Minesweeper!\n";
+						std::cout << "Congratulations!\n- You beat Minesweeper! -" << std::endl;
 					}
+				} else {
+					std::cout << "Please use integers in the range of 0 to " << domain << '\n';
 				}
-				else std::cout << "Please use integers in the range of 0 to " << ROW-1 << '\n';
 			}
 			catch(int e){
 				std::cerr << "An Exception Occurred. " << e << std::endl;;
 			}
 		}
-		else if(input !="q" && input !="Q") std::cout << "Please use 2 integers in the range of 0 to " << ROW-1 << " separated by a comma\n";
-		std::cout << '\n';
+		else if(input !="q" && input !="Q") {
+			std::cout << "Please use 2 integers in the range of 0 to " << domain << " separated by a comma\n";
+		}
 	}
 	return 0;
 }
