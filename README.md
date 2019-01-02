@@ -13,11 +13,5 @@ I like to use MinGW to build my projects. If you want to build the game just use
 
 After that just run minesweeper.exe and have fun doing minesweeper console style!
 
-### Starting New Game
-<img src="https://github.com/StaneCobalt/mine-sweeper/blob/master/images/screenshot0.PNG" width="50%" />
-
-### Winning Game
-<img src="https://github.com/StaneCobalt/mine-sweeper/blob/master/images/screenshot2.PNG" width="50%" />
-
-### Game Over
-<img src="https://github.com/StaneCobalt/mine-sweeper/blob/master/images/screenshot1.PNG" width="50%" />
+### Gameplay
+<img src="images/playthrough.gif" alt="animated playthrough of minesweeper" width="75%" />
