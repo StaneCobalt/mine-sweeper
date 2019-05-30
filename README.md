@@ -1,3 +1,4 @@
+<a href="https://www.codefactor.io/repository/github/stanecobalt/mine-sweeper"><img src="https://www.codefactor.io/repository/github/stanecobalt/mine-sweeper/badge" alt="CodeFactor" /></a>
 # Minesweeper
 ### by Stephen Sladek
 
