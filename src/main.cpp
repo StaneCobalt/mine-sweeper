@@ -28,7 +28,6 @@
 #endif
 
 int main(int argc, char** argv){
-	
 	const std::string title = "\n -------------------------\n| Welcome to Minesweeper! |\n -------------------------\n\n";
 	std::string input;
 	std::vector<std::string> v;
@@ -66,7 +65,7 @@ int main(int argc, char** argv){
 				}
 			}
 			catch(int e){
-				std::cerr << "An Exception Occurred. " << e << std::endl;;
+				std::cerr << "An Exception Occurred. " << e << std::endl;
 			}
 		}
 		else if(input !="q" && input !="Q") {

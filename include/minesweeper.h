@@ -18,6 +18,7 @@ class minesweeper{
 		bool marked(unsigned x, unsigned y){ return grid[x][y] != '#'; }
 		void clear_empty(unsigned x, unsigned y);
 		bool isMine(unsigned x, unsigned y);
+		unsigned mineCount(unsigned x, unsigned y);
 		char howNear(unsigned x, unsigned y);
 		bool getMineHit() { return mineHit; }
 		bool gameWon();
